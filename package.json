@@ -1,0 +1,28 @@
+{
+  "name": "gw-sdk",
+  "version": "0.0.1",
+  "description": "",
+  "workspaces": [
+    "packages/*"
+  ],
+  "private": true,
+  "scripts": {
+    "tsc": "npm run tsc -w packages/*",
+    "tsc:test": "npm run tsc:test -w packages/*",
+    "test": "npm run test -w packages/*",
+    "clean:lib": "npm run clean:lib -w packages/*"
+  },
+  "author": "keith-cy",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "typescript": "4.5.5"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "7.16.11",
+    "@babel/preset-typescript": "7.16.7",
+    "@nervosnetwork/ckb-sdk-utils": "0.101.0",
+    "@types/jest": "27.4.0",
+    "@types/node": "17.0.10",
+    "jest": "27.4.7"
+  }
+}

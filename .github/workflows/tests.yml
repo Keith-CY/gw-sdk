@@ -1,0 +1,23 @@
+name: Unit Tests
+
+on: push
+
+jobs:
+  default:
+    strategy:
+      matrix:
+        node: [16]
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+          cache-dependencies-path: '**/packages/package-lock.json'
+
+      - run: npm install
+      - run: npm test

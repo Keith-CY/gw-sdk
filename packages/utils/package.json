@@ -1,0 +1,18 @@
+{
+  "name": "@godwoken/utils",
+  "version": "0.0.1",
+  "description": "",
+  "private": false,
+  "main": "lib/index.js",
+  "scripts": {
+    "tsc": "tsc --project tsconfig.build.json",
+    "tsc:test": "tsc --project tsconfig.test.json",
+    "test": "jest",
+    "clean:lib": "rm -rf ./lib"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "keccak256": "1.0.6"
+  }
+}
