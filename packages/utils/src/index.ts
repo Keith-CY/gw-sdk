@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import keccak256 from 'keccak256'
 import { blake2b, PERSONAL, serializeScript, privateKeyToPublicKey } from '@nervosnetwork/ckb-sdk-utils'
+export * from './constants'
 
 
 export const computeScriptHash = (script: CKBComponents.Script) => {
@@ -19,6 +20,22 @@ export const privateKeyToEthAddr = (privateKey: string) => {
   return publicKeyToEthAddr(publicKey)
 }
 
+/**
+ * USER_ACCOUNT_TYPE_HASH for user
+ * MAINNET_UDT_ACCOUNT_TYPE_HASH for udt
+ * MAINNET_CONTRACT_ACCOUNT_TYPE_HASH for contract
+ */
+export const ethAddrToLayer2ScriptHash = (ethAddr: string, codeHash: string, rollupTypeHash: string) => {
+  const script: CKBComponents.Script = {
+    codeHash,
+    hashType: 'type',
+    args: rollupTypeHash + ethAddr.slice(2)
+  }
+
+  const scriptHash = computeScriptHash(script)
+  return scriptHash
+}
+
 export const keyToLayer2ScriptHash = (key: Partial<Record<'privateKey' | 'publicKey', string>>, ethAccountTypeHash: string, rollupTypeHash: string) => {
   const pk = key.privateKey ? privateKeyToPublicKey(key.privateKey) : key.publicKey
 
@@ -27,14 +44,6 @@ export const keyToLayer2ScriptHash = (key: Partial<Record<'privateKey' | 'public
   }
 
   const ethAddr = publicKeyToEthAddr(pk)
-
-  const script: CKBComponents.Script = {
-    codeHash: ethAccountTypeHash,
-    hashType: 'type',
-    args: rollupTypeHash + ethAddr.slice(2)
-  }
-
-  const scriptHash = computeScriptHash(script)
-  return scriptHash
+  return ethAddrToLayer2ScriptHash(ethAddr, ethAccountTypeHash, rollupTypeHash)
 }
 
